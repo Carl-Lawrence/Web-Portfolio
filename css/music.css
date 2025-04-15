@@ -1,0 +1,28 @@
+#music-widget {
+    position: fixed;
+    bottom: 90px; /* So it's above footer and back-to-top button */
+    right: 20px;
+    background-color: rgba(51, 51, 51, 0.95);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    width: 250px;
+    z-index: 9999;
+    cursor: grab;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+#music-widget .controls button {
+    font-size: 14px;
+    padding: 5px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.music-widget .widget-header {
+    text-align: center;
+    background: #343a40;
+    border-radius: 12px 12px 0 0;
+    cursor: grab;
+}

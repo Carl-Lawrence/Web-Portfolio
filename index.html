@@ -37,7 +37,9 @@
             </div>
         </div>
         <!-- Spinner End -->
+
         <div id="particles-js"></div>
+
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-4 sticky-lg-top vh-100">
@@ -46,15 +48,14 @@
                         <div class="glitch-wrapper mt-2">
                             <div class="glitch profile-name" data-glitch="Carl Lawrence M. Castillo">Carl Lawrence M. Castillo</div>
                          </div>                         
-                        <div class="mb-4" style="height: 22px;">
+                        <div class="mb-4" style="height: 50px;">
                             <h4 class="typed-text-output d-inline-block text-light"></h4>
                             <div class="typed-text d-none">MySQL, C#, Java, React, JavaScript, VueJS, PHP</div>
                         </div>
                         <div class="d-flex justify-content-center mt-auto mb-3">
-                            <a class="btn btn-secondary btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-secondary btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-secondary btn-square mx-1" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="btn btn-secondary btn-square mx-1" href="#"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://www.instagram.com/mycodeshadow/"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://www.facebook.com/carlmenes03290501"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://www.linkedin.com/in/carl-lawrence-castillo-0178ba25b/"><i class="fab fa-linkedin-in"></i></a>
                         </div>
                         <div class="d-flex align-items-end justify-content-between border-top">
                             <a href="CV/Carl Lawrence - CV.pdf" class="btn w-50 border-end">Download CV</a>
@@ -63,6 +64,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
+                    
                     <!-- About Start -->
                     <section class="py-5 border-bottom wow fadeInUp about-section" data-wow-delay="0.1s">
                         <h1 class="title pb-3 mb-5">About Me</h1>
@@ -185,31 +187,31 @@
                     </section>
                     <!-- Skills End -->
 
-                    <!-- Expericence Start -->
+                    <!-- Experience Start -->
                     <section class="py-5 wow fadeInUp Experience" data-wow-delay="0.1s">
                         <h1 class="title pb-3 mb-5">Experience</h1>
                         <div class="border-start border-2 border-light pt-2 ps-5">
                             <div class="position-relative mb-4">
                                 <span class="bi bi-arrow-right fs-4 text-light position-absolute" style="top: -5px; left: -50px;"></span>
                                 <h5 class="mb-1">Java</h5>
-                                <p class="mb-2">Señior High School | <small>2019 - 2021</small></p>
+                                <p class="mb-2">Senior High School | <small>2019 - 2021</small></p>
                                 <p>I learned the basics of Java.</p>
                             </div>
                             <div class="position-relative mb-4">
                                 <span class="bi bi-arrow-right fs-4 text-light position-absolute" style="top: -5px; left: -50px;"></span>
                                 <h5 class="mb-1">Web Development</h5>
                                 <p class="mb-2">University of Cabuyao | <small>2021 - 2025</small></p>
-                                <p>While in College i kept learning on how to use different kinds of Programming Language Such as MySQL, C#, Java, JavaScript, PHP and through that i experienced on how can i make a website. I learned the basics of security, client side and server side scripting.</p>
+                                <p>While in college, I kept learning how to use different programming languages such as MySQL, C#, Java, JavaScript, and PHP. Through this, I gained experience in creating websites and learned the basics of security, client-side, and server-side scripting.</p>
                             </div>
                             <div class="position-relative mb-4">
                                 <span class="bi bi-arrow-right fs-4 text-light position-absolute" style="top: -5px; left: -50px;"></span>
                                 <h5 class="mb-1">Website Frameworks</h5>
                                 <p class="mb-2">University of Cabuyao | <small>2024 - 2025</small></p>
-                                <p>During my 4th Year in College as Information Technology student I also discovered on how to use React and VueJS frameworks</p>
+                                <p>During my 4th year in college as an Information Technology student, I also learned how to use React and VueJS frameworks.</p>
                             </div>
                         </div>
                     </section>
-                    <!-- Expericence End -->
+                    <!-- Experience End -->
 
                     <!-- Services Start -->
                     <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
@@ -344,12 +346,35 @@
                         </div>
                     </section>
                     <!-- Testimonial End -->
+
+                    <!-- Footer Start -->
+                        <section class="wow fadeIn" data-wow-delay="0.1s">
+
+                              <!-- Music Widget -->
+                                    <div id="music-widget" class="music-widget shadow">
+                                        <div class="widget-header d-flex justify-content-center align-items-center px-3 py-2">
+                                            <div class="controls d-flex justify-content-center mx-auto">
+                                                <button id="playPauseBtn" class="btn btn-sm btn-light rounded-circle me-2">
+                                                    <i class="fas fa-pause"></i>
+                                                </button>
+                                                <button id="closeBtn" class="btn btn-sm btn-danger rounded-circle">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <audio id="backgroundMusic" src="music/ReAwaker.mp3" autoplay loop></audio>
+                                    </div>
+
+                        </section>
+                        <!-- Footer End -->
                 </div>
             </div>
         </div>
-        
+
         <!-- Back to Top -->
         <a href="#" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
         
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -371,5 +396,6 @@
         <script src="js/main.js"></script>
         <script src="js/particles.js"></script>
         <script src="js/app.js"></script>
+        <script src="js/music.js"></script>
     </body>
 </html>
