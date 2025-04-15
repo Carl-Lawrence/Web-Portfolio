@@ -4,20 +4,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const playPauseBtn = document.getElementById("playPauseBtn");
     const closeBtn = document.getElementById("closeBtn");
 
-    let isPlaying = false;
     let volume = 0;
     const targetVolume = 0.5;
 
-    // Try to autoplay with fade-in
-    function playWithFadeIn() {
+    // Attempt autoplay on interaction fallback
+    const tryAutoplay = () => {
         audio.volume = 0;
         const playPromise = audio.play();
 
         if (playPromise !== undefined) {
             playPromise.then(() => {
-                isPlaying = true;
                 playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                const fadeIn = setInterval(() => {
+                let fadeIn = setInterval(() => {
                     if (volume < targetVolume) {
                         volume = Math.min(volume + 0.05, targetVolume);
                         audio.volume = volume;
@@ -25,29 +23,27 @@ document.addEventListener("DOMContentLoaded", function () {
                         clearInterval(fadeIn);
                     }
                 }, 150);
-            }).catch((error) => {
-                console.warn("Autoplay failed or was blocked by the browser:", error);
+            }).catch((err) => {
+                console.warn("Autoplay was blocked:", err);
                 playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                isPlaying = false;
             });
         }
-    }
+    };
 
-    playWithFadeIn();
+    // Ensure audio is loaded before attempting playback
+    audio.addEventListener("canplay", tryAutoplay);
 
-    // Play/Pause toggle
+    // Handle Play/Pause
     playPauseBtn.addEventListener("click", () => {
         if (audio.paused) {
             audio.play().then(() => {
                 playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                isPlaying = true;
-            }).catch((err) => {
-                console.warn("Playback failed:", err);
+            }).catch(err => {
+                console.warn("Play error:", err);
             });
         } else {
             audio.pause();
             playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-            isPlaying = false;
         }
     });
 
