@@ -4,45 +4,56 @@ document.addEventListener("DOMContentLoaded", function () {
     const playPauseBtn = document.getElementById("playPauseBtn");
     const closeBtn = document.getElementById("closeBtn");
 
-    // Autoplay with fallback
-    audio.volume = 0.5;
-    const tryPlay = audio.play();
-    if (tryPlay !== undefined) {
-        tryPlay.catch(() => {
-            console.warn("Autoplay failed");
-        });
+    let isPlaying = false;
+    let volume = 0;
+    const targetVolume = 0.5;
+
+    // Try to autoplay with fade-in
+    function playWithFadeIn() {
+        audio.volume = 0;
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                isPlaying = true;
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                const fadeIn = setInterval(() => {
+                    if (volume < targetVolume) {
+                        volume = Math.min(volume + 0.05, targetVolume);
+                        audio.volume = volume;
+                    } else {
+                        clearInterval(fadeIn);
+                    }
+                }, 150);
+            }).catch((error) => {
+                console.warn("Autoplay failed or was blocked by the browser:", error);
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                isPlaying = false;
+            });
+        }
     }
 
-    // Play/Pause functionality
+    playWithFadeIn();
+
+    // Play/Pause toggle
     playPauseBtn.addEventListener("click", () => {
         if (audio.paused) {
-            audio.play();
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            audio.play().then(() => {
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                isPlaying = true;
+            }).catch((err) => {
+                console.warn("Playback failed:", err);
+            });
         } else {
             audio.pause();
             playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            isPlaying = false;
         }
     });
 
-    // Close functionality
+    // Close widget
     closeBtn.addEventListener("click", () => {
         widget.style.display = "none";
         audio.pause();
     });
-
-    let volume = 0;
-    audio.volume = 0;
-    audio.play();
-    
-    let fadeIn = setInterval(() => {
-        if (volume < 0.5) {
-            volume += 0.05;
-            audio.volume = volume;
-        } else {
-            clearInterval(fadeIn);
-        }
-    }, 200);
-  
 });
-
-
