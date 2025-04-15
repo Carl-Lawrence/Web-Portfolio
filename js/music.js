@@ -4,16 +4,42 @@ document.addEventListener("DOMContentLoaded", function () {
     const playPauseBtn = document.getElementById("playPauseBtn");
     const closeBtn = document.getElementById("closeBtn");
 
-    // Autoplay with fallback
-    audio.volume = 0.5;
-    const tryPlay = audio.play();
-    if (tryPlay !== undefined) {
-        tryPlay.catch(() => {
-            console.warn("Autoplay failed");
-        });
+    let hasStarted = false;
+
+    // Start muted for autoplay compatibility
+    audio.muted = true;
+    audio.volume = 0;
+
+    function startMusic() {
+        if (!hasStarted) {
+            audio.play().then(() => {
+                hasStarted = true;
+                audio.muted = false;
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+
+                let volume = 0;
+                const fadeIn = setInterval(() => {
+                    if (volume < 0.5) {
+                        volume += 0.05;
+                        audio.volume = volume;
+                    } else {
+                        clearInterval(fadeIn);
+                    }
+                }, 200);
+            }).catch(err => {
+                console.warn("Autoplay blocked:", err);
+            });
+
+            document.body.removeEventListener("click", startMusic);
+            document.body.removeEventListener("scroll", startMusic);
+        }
     }
 
-    // Play/Pause functionality
+    // Trigger playback on user interaction
+    document.body.addEventListener("click", startMusic);
+    document.body.addEventListener("scroll", startMusic);
+
+    // Play / Pause
     playPauseBtn.addEventListener("click", () => {
         if (audio.paused) {
             audio.play();
@@ -24,25 +50,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Close functionality
+    // Close Widget
     closeBtn.addEventListener("click", () => {
         widget.style.display = "none";
         audio.pause();
     });
-
-    let volume = 0;
-    audio.volume = 0;
-    audio.play();
-    
-    let fadeIn = setInterval(() => {
-        if (volume < 0.5) {
-            volume += 0.05;
-            audio.volume = volume;
-        } else {
-            clearInterval(fadeIn);
-        }
-    }, 200);
-  
 });
-
-
