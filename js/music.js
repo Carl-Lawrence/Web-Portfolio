@@ -5,37 +5,52 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = document.getElementById("closeBtn");
 
     let isPlaying = false;
+    let hasTried = false;
 
-
-
-    // Start muted for autoplay compatibility
+    // Prepare audio for autoplay
     audio.muted = true;
     audio.volume = 0;
-    const playAttempt = audio.play();
 
-    if (playAttempt !== undefined) {
-        playAttempt.then(() => {
-            audio.muted = false; // Unmute after play starts
-            isPlaying = true;
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+    const fadeInAudio = () => {
+        let volume = 0;
+        const fadeIn = setInterval(() => {
+            if (volume < 0.5) {
+                volume += 0.05;
+                audio.volume = volume;
+            } else {
+                clearInterval(fadeIn);
+            }
+        }, 200);
+    };
 
-            // Fade in
-            let volume = 0;
-            const fadeIn = setInterval(() => {
-                if (volume < 0.5) {
-                    volume += 0.05;
-                    audio.volume = volume;
-                } else {
-                    clearInterval(fadeIn);
-                }
-            }, 200);
-        }).catch((err) => {
-            console.warn("Autoplay blocked:", err);
-            // Optional: Show a "Click to Start Music" button
-        });
-    }
+    const startMusic = () => {
+        if (!hasTried) {
+            hasTried = true;
+            audio.play().then(() => {
+                audio.muted = false;
+                isPlaying = true;
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                fadeInAudio();
+            }).catch(err => {
+                console.warn("Autoplay still blocked:", err);
+            });
+        }
+    };
 
-    // Play / Pause Toggle
+    // Try autoplay on load
+    audio.play().then(() => {
+        audio.muted = false;
+        isPlaying = true;
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        fadeInAudio();
+    }).catch(err => {
+        console.warn("Autoplay blocked:", err);
+        // Fallback to scroll or click
+        window.addEventListener("scroll", startMusic, { once: true });
+        document.body.addEventListener("click", startMusic, { once: true });
+    });
+
+    // Play / Pause toggle
     playPauseBtn.addEventListener("click", () => {
         if (audio.paused) {
             audio.play();
@@ -46,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Close Widget
+    // Close widget
     closeBtn.addEventListener("click", () => {
         widget.style.display = "none";
         audio.pause();
