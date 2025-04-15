@@ -1,59 +1,44 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const widget = document.getElementById("music-widget");
     const audio = document.getElementById("backgroundMusic");
     const playPauseBtn = document.getElementById("playPauseBtn");
     const closeBtn = document.getElementById("closeBtn");
 
-    let isPlaying = false;
-    let volume = 0;
-    const targetVolume = 0.5;
+    // Attempt autoplay (some browsers require interaction)
+    audio.volume = 0.5;
+    const autoplayPromise = audio.play();
 
-    // Try to autoplay with fade-in
-    function playWithFadeIn() {
-        audio.volume = 0;
-        const playPromise = audio.play();
-
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                isPlaying = true;
-                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                const fadeIn = setInterval(() => {
-                    if (volume < targetVolume) {
-                        volume = Math.min(volume + 0.05, targetVolume);
-                        audio.volume = volume;
-                    } else {
-                        clearInterval(fadeIn);
-                    }
-                }, 150);
-            }).catch((error) => {
-                console.warn("Autoplay failed or was blocked by the browser:", error);
-                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                isPlaying = false;
-            });
-        }
+    if (autoplayPromise !== undefined) {
+        autoplayPromise.catch(error => {
+            console.warn("Autoplay failed, will require user interaction.");
+        });
     }
 
-    playWithFadeIn();
-
-    // Play/Pause toggle
-    playPauseBtn.addEventListener("click", () => {
+    playPauseBtn.addEventListener("click", function () {
         if (audio.paused) {
-            audio.play().then(() => {
-                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                isPlaying = true;
-            }).catch((err) => {
-                console.warn("Playback failed:", err);
-            });
+            audio.play();
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
         } else {
             audio.pause();
             playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-            isPlaying = false;
         }
     });
 
-    // Close widget
-    closeBtn.addEventListener("click", () => {
-        widget.style.display = "none";
+    closeBtn.addEventListener("click", function () {
+        document.getElementById("music-widget").style.display = "none";
         audio.pause();
     });
+
+    let volume = 0;
+    audio.volume = 0;
+    audio.play();
+
+    let fadeIn = setInterval(() => {
+        if (volume < 0.5) {
+            volume += 0.05;
+            audio.volume = volume;
+        } else {
+            clearInterval(fadeIn);
+        }
+    }, 200);
+
 });
