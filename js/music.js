@@ -6,13 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let isPlaying = true;
 
-    function startMusicOnce() {
-        const audio = document.getElementById("backgroundMusic");
-        if (audio.paused) {
-            audio.play();
-        }
-        document.body.onclick = null; // Remove after first click
-    }
+
 
     // Start muted for autoplay compatibility
     audio.muted = true;
