@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const playPauseBtn = document.getElementById("playPauseBtn");
     const closeBtn = document.getElementById("closeBtn");
 
-    let isPlaying = true;
+    let isPlaying = false;
 
 
 
